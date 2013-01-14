@@ -36,6 +36,7 @@ namespace Test_proectile
             graphics = new GraphicsDeviceManager(this);
             IsMouseVisible = true;
             Content.RootDirectory = "Content";
+            Window.AllowUserResizing = true;
         }
 
         protected override void Initialize()
@@ -49,7 +50,7 @@ namespace Test_proectile
 
             //image du PERSO et son "rectangle position"
             pinguin = Content.Load<Texture2D>("pinguin");
-            positionPinguin = new Rectangle(0, GraphicsDevice.Viewport.Height / 2 - pinguin.Height, pinguin.Width, pinguin.Height);
+            positionPinguin = new Rectangle(0, GraphicsDevice.Viewport.Height / 2, pinguin.Width, pinguin.Height);
 
             //image du PROJECTILE et son "rectangle position"
             projectile = Content.Load<Texture2D>("projectile");
@@ -104,8 +105,8 @@ namespace Test_proectile
             else if (Keyboard.GetState().IsKeyUp(Keys.Space) && tir == false)
             {
                 //initialise la position du projectile avec celle du perso quand il na pas tire
-                positionProjectile.X = positionPinguin.X + pinguin.Width;
-                positionProjectile.Y = positionPinguin.Y;
+                positionProjectile.X = positionPinguin.X + pinguin.Width / 2 - projectile.Width / 2;
+                positionProjectile.Y = positionPinguin.Y + projectile.Height / 2;
             }
 
             //reinitialise le tir a faux si le proectile sort de la map ou etre en collision avec qqch(plus tard)
@@ -140,11 +141,11 @@ namespace Test_proectile
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            //dessin du perso
-            spriteBatch.Draw(pinguin, positionPinguin, Color.White);
             //lancement du projectile
             if (tir)
                 spriteBatch.Draw(projectile, positionProjectile, Color.White);
+            //dessin du perso
+            spriteBatch.Draw(pinguin, positionPinguin, Color.White);
             //dessin du viseur
             spriteBatch.Draw(viseur, positionViseur, null, Color.White, rotationViseur, origineViseur, 1f, SpriteEffects.None, 0);
 
